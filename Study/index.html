@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Planner de Estudos</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Tela de login por PIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="brand" style="justify-content:center; margin-bottom: 22px;">
+      <h1><span class="chalk-mark"></span>planner</h1>
+    </div>
+    <p class="login-hint">digite o PIN do calendário que você quer abrir</p>
+    <form id="loginForm">
+      <input type="password" inputmode="numeric" autocomplete="off" id="pinInput" class="pin-input" maxlength="6" placeholder="• • • •" autofocus />
+      <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:14px;">entrar</button>
+      <p class="login-error hidden" id="loginError">PIN não reconhecido. Tenta de novo.</p>
+    </form>
+  </div>
+</div>
+
+<div class="app hidden" id="appView">
+
+  <header class="app-header">
+    <div class="brand">
+      <h1><span class="chalk-mark"></span><span id="spaceLabel">planner</span></h1>
+      <span class="sub" id="spaceSub">///</span>
+    </div>
+
+    <div class="week-nav">
+      <button id="prevWeek" aria-label="Semana anterior">&#8249;</button>
+      <span class="label mono" id="weekLabel">—</span>
+      <button id="nextWeek" aria-label="Próxima semana">&#8250;</button>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+      <button class="btn-primary" id="openAddBtn">+ nova tarefa</button>
+      <button class="btn-secondary" id="switchSpaceBtn" title="Trocar de calendário">trocar</button>
+    </div>
+  </header>
+
+  <div class="week-grid" id="weekGrid"></div>
+
+</div>
+
+<!-- Modal: adicionar/editar tarefa -->
+<div class="overlay" id="taskOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="taskModalTitle">Nova tarefa</h2>
+      <button class="modal-close" id="closeTaskModal">&times;</button>
+    </div>
+
+    <form id="taskForm">
+      <div class="field">
+        <label>Tipo</label>
+        <div class="type-picker" id="typePicker"></div>
+      </div>
+
+      <div class="field">
+        <label for="fTitle">Título</label>
+        <input type="text" id="fTitle" placeholder="Ex: Prova de Química, Entregar redação..." required />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="fDate">Data</label>
+          <input type="date" id="fDate" required />
+        </div>
+        <div class="field">
+          <label for="fTime">Horário</label>
+          <input type="time" id="fTime" />
+        </div>
+      </div>
+
+      <div class="field" id="subjectField">
+        <label for="fSubject">Matéria</label>
+        <input type="text" id="fSubject" placeholder="Ex: Química, História, Matemática..." />
+      </div>
+
+      <div class="field" id="topicsField">
+        <label for="fTopics">O que vai cair na prova? (conteúdo, capítulos, temas)</label>
+        <textarea id="fTopics" placeholder="Ex: Ligações químicas, tabela periódica, reações de oxirredução..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="fNotes">Notas (opcional)</label>
+        <textarea id="fNotes" placeholder="Qualquer observação extra..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary hidden" id="deleteTaskBtn">excluir</button>
+        <button type="submit" class="btn-primary">salvar tarefa</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: detalhe da tarefa / explicação gerada por IA -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="detailTitle">Tarefa</h2>
+      <button class="modal-close" id="closeDetailModal">&times;</button>
+    </div>
+
+    <span class="detail-badge" id="detailBadge">estudo</span>
+    <div class="detail-meta" id="detailMeta"></div>
+    <div class="detail-notes" id="detailNotes"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <div class="explain-empty" id="explainEmpty">
+        <p>Quer uma explicação do conteúdo pra estudar?</p>
+        <button class="btn-primary" id="generateBtn">gerar explicação</button>
+      </div>
+
+      <div class="hidden" id="explainLoading" style="text-align:center; padding: 24px 0;">
+        <div class="spinner"></div>
+        <p class="mono" style="font-size:12px; color: var(--chalk-dim);">montando sua ficha de estudo...</p>
+      </div>
+
+      <div class="hidden" id="explainError" class="explain-error"></div>
+
+      <div class="hidden" id="explainResult"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" id="editTaskBtn">editar</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
